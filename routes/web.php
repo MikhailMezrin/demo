@@ -14,5 +14,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('taskForm');
 });
+
+Route::get('/tasks', 'taskController@getAllTasks');
+Route::get('/tasks/{id}', 'taskController@getTaskById');
+
+Route::post('/tasks', 'taskController@postNewTask');
+
+Route::put('/tasks/{id}', 'taskController@editTaskById');
+
+Route::delete('/tasks/{id}', 'taskController@delitTaskById');
