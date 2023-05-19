@@ -13,21 +13,26 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::get('/form', function () {
     return view('taskForm');
-});
+})->name('form');
 
-Route::post('/register', 'AuthController@register');
-Route::post('/login', 'AuthController@login');
 
-Route::group(['middleware' => 'auth'], function () use ($router) {
-    $router->get('/tasks', 'TaskController@getAllTasks');
 
-    $router->get('/tasks/{id}', 'TaskController@getTaskById');
+Route::prefix('api')->group(function () use ($router) {
 
-    $router->post('/tasks', 'TaskController@postNewTask');
-    
-    $router->put('/tasks/{id}', 'TaskController@editTaskById');
-    
-    $router->delete('/tasks/{id}', 'TaskController@delitTaskById');
+    Route::post('/register', 'AuthController@register');
+    Route::post('/login', 'AuthController@login');
+
+    Route::prefix('tasks')->group(function () use ($router) {
+        
+        Route::post('/', 'TaskController@postNewTask');
+
+            Route::group(['middleware' => 'auth'], function () use ($router) {
+            $router->get('/', 'TaskController@getAllTasks');
+            $router->get('/{id}', 'TaskController@getTaskById');
+            $router->put('/{id}', 'TaskController@editTaskById');
+            $router->delete('/{id}', 'TaskController@deleteTaskById');
+        });
+    });
 });

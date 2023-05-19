@@ -1,64 +1,157 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# Роуты  
+# вне апи
+## форма для отправки задания
+```
+GET /form
+```
+# апи
+## Регистрация пользователя  
+```
+POST
+/api/register 
+Шаблон json-а
+{
+    "name":"your name",
+    "email":"yourEmail@gmail.com",
+    "password":"your password"
+}
+```
+ответ
+```
+{
+    "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXBpL3JlZ2lzdGVyIiwiaWF0IjoxNjg0NDg2NjA5LCJleHAiOjE2ODcwNzg2MDksIm5iZiI6MTY4NDQ4NjYwOSwianRpIjoiTFZxbmVWdDhnYm1rWm9VZCIsInN1YiI6IjIiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.XVsaQQHfvUjFd6LTZXC9e7oR-RiXhq7fpucOH2ncM5g",
+    "token_type": "bearer",
+    "expires_in": 2592000
+}
+```
+## авторизация пользователя  
+```
+POST        
+/api/login
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Шаблон json-а
+{
+    "email":"yourEmail@gmail.com",
+    "password":"your password"
+}
+```
+ответ
+```
+{
+    "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXBpL3JlZ2lzdGVyIiwiaWF0IjoxNjg0NDg2NjA5LCJleHAiOjE2ODcwNzg2MDksIm5iZiI6MTY4NDQ4NjYwOSwianRpIjoiTFZxbmVWdDhnYm1rWm9VZCIsInN1YiI6IjIiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.XVsaQQHfvUjFd6LTZXC9e7oR-RiXhq7fpucOH2ncM5g",
+    "token_type": "bearer",
+    "expires_in": 2592000
+}
+```
+# tasks
+## Без авторизации
+## Отправка задания
+```
+POST
+/api/tasks
 
-## About Laravel
+Шаблон json-а
+{
+    "title":"title",
+    "description":"description"
+}
+```
+ответ
+```
+{
+    "message": "Task created successfully"
+}
+```
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## С авторизацией
+(Для авторизации пользователя необходимо указать jwt токен)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Получение всех заданий
+```
+GET
+/api/tasks
+Для сортировки по дате создания
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+/api/tasks?SortByUpdate=true
+Для сортировки по дате обновления 
+```
+ответ
+```
+{
+    "Tasks": {
+        "2": {
+            "id": 3,
+            "title": "title",
+            "description": "description",
+            "status": "задача выполнена",
+            "created_at": "2023-05-19T08:39:54.000000Z",
+            "updated_at": "2023-05-19T09:55:36.000000Z"
+        },
+        "0": {
+            "id": 1,
+            "title": "title",
+            "description": "description",
+            "status": "задача выполнена",
+            "created_at": "2023-05-19T06:47:12.000000Z",
+            "updated_at": "2023-05-19T09:54:01.000000Z"
+        },
+        "4": {
+            "id": 5,
+            "title": "title",
+            "description": "description",
+            "status": "задача в работе",
+            "created_at": "2023-05-19T09:37:18.000000Z",
+            "updated_at": "2023-05-19T09:37:18.000000Z"
+        },
+    }
+}
+```
 
-## Learning Laravel
+## Получение конкретного задания
+```
+GET
+/api/tasks/{id} 
+```
+ответ
+```
+{
+    "Tasks": {
+        "id": 2,
+        "title": "title",
+        "description": "description",
+        "status": "in developing",
+        "created_at": "2023-05-19T07:53:47.000000Z",
+        "updated_at": "2023-05-19T07:53:47.000000Z"
+    }
+}
+```
+## Изменение конкретного задания
+```
+PUT
+/api/tasks/{id} 
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Шаблон json-а(все поля являются опциональными)
+{
+    "title":"new title",
+    "description":"new description",
+    "status":"задача выполнена"
+}
+```
+ответ
+```
+{
+    "message": "Task updated successfully"
+}
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+##Удаление конкретного задания
+```
+DELETE
+/api/tasks/{id} 
+```
+ответ
+```
+{
+    "message": "Task deleted successfully"
+}
+```

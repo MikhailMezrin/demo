@@ -29,7 +29,7 @@ class AuthController extends Controller
         }
 
         if (User::where('email', '=', $email)->exists()) {
-            return response()->json(['status' => 'error', 'message' => 'User already exists with this email'], 417);
+            return response()->json(['status' => 'error', 'message' => 'User with this email already exists'], 417);
         }
 
         try {

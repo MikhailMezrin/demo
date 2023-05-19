@@ -8,9 +8,10 @@ use App\Models\Task;
 
 class TaskController extends Controller
 {
-    public function getAllTasks(): JsonResponse
+    public function getAllTasks(Request $request): JsonResponse
     {
-        return response()->json(['Tasks' => Task::all()]);
+        if($request->SortByUpdate) return response()->json(['Tasks' => Task::all()->sortByDesc('updated_at')]);
+        return response()->json(['Tasks' => Task::all()->sortByDesc('created_at')]);
     }
 
     public function getTaskById($id): JsonResponse
@@ -28,7 +29,7 @@ class TaskController extends Controller
             $task = new Task;
             $task->title = $request->title;
             $task->description = $request->description;
-            $task->status = "in developing";
+            $task->status = "задача в работе";
             
             if ($task->save()) {
                 return response()->json(['message' => 'Task created successfully']);
@@ -42,18 +43,19 @@ class TaskController extends Controller
 
     public function editTaskById(Request $request, $id): JsonResponse
     {
+        $statuses = ["задача в работе", "задача выполнена"];
         try {
             $task = Task::find($id);
 
-            if($request->title){
-                $task->title = $request->title;
-            }
+            if(!$task) return response()->json(['message' => "Can't find task ".$id]);
+            if($request->title) $task->title = $request->title;
 
-            if($request->description){
-                $task->description = $request->description;
-            }
+            if($request->description) $task->description = $request->description;
 
-            if($request->status){
+            if($request->status) {
+                if(!in_array($request->status, $statuses)) return response()
+                ->json(['message' => 'status must be '.implode(' or ', $statuses)]);
+
                 $task->status = $request->status;
             }
             
@@ -68,7 +70,7 @@ class TaskController extends Controller
     }
 
     
-    public function delitTaskById(Request $request, $id): JsonResponse
+    public function deleteTaskById(Request $request, $id): JsonResponse
     {
         try {
             if(! $task = Task::find($id)){
@@ -76,7 +78,7 @@ class TaskController extends Controller
             }
             
             if ($task->delete()) {
-                return response()->json(['message' => 'Task delited successfully']);
+                return response()->json(['message' => 'Task deleted successfully']);
             } else {
                 return response()->json(['message' => 'Something gone wrong']);
             }
