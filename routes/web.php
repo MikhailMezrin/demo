@@ -17,11 +17,13 @@ Route::get('/', function () {
     return view('taskForm');
 });
 
-Route::get('/tasks', 'taskController@getAllTasks');
-Route::get('/tasks/{id}', 'taskController@getTaskById');
+Route::get('/tasks', 'TaskController@getAllTasks');
+Route::get('/tasks/{id}', 'TaskController@getTaskById');
 
-Route::post('/tasks', 'taskController@postNewTask');
+Route::post('/tasks', 'TaskController@postNewTask');
 
-Route::put('/tasks/{id}', 'taskController@editTaskById');
+Route::put('/tasks/{id}', 'TaskController@editTaskById');
 
-Route::delete('/tasks/{id}', 'taskController@delitTaskById');
+Route::delete('/tasks/{id}', 'TaskController@delitTaskById');
+
+Route::post('/register', 'AuthController@register');

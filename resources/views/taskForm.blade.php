@@ -17,7 +17,7 @@
         <title>Task form</title>
     </head>
     <body>
-        <form action="http://127.0.0.1:8080/tasks" method="post" enctype="multipart/form-data" align="center">
+        <form action=/tasks method="post" enctype="multipart/form-data" align="center">
         <div>
             @csrf
             <input type="text" name="title" value="" placeholder="title">

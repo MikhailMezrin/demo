@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Models\Task;
 
-class taskController extends Controller
+class TaskController extends Controller
 {
     public function getAllTasks(): JsonResponse
     {
