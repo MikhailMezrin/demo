@@ -17,13 +17,17 @@ Route::get('/', function () {
     return view('taskForm');
 });
 
-Route::get('/tasks', 'TaskController@getAllTasks');
-Route::get('/tasks/{id}', 'TaskController@getTaskById');
-
-Route::post('/tasks', 'TaskController@postNewTask');
-
-Route::put('/tasks/{id}', 'TaskController@editTaskById');
-
-Route::delete('/tasks/{id}', 'TaskController@delitTaskById');
-
 Route::post('/register', 'AuthController@register');
+Route::post('/login', 'AuthController@login');
+
+Route::group(['middleware' => 'auth'], function () use ($router) {
+    $router->get('/tasks', 'TaskController@getAllTasks');
+
+    $router->get('/tasks/{id}', 'TaskController@getTaskById');
+
+    $router->post('/tasks', 'TaskController@postNewTask');
+    
+    $router->put('/tasks/{id}', 'TaskController@editTaskById');
+    
+    $router->delete('/tasks/{id}', 'TaskController@delitTaskById');
+});
