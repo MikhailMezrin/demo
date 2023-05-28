@@ -1,0 +1,45 @@
+version: '3'
+
+services:
+  db:
+    image: mariadb
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: admin
+    volumes: 
+    - ${DB_PATH_LOCAL}:/var/lib/mysql
+    container_name: tasks_db
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8081:8080
+    container_name: tasks_adminer
+
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d
+    ports:
+      - "8000:80"
+    depends_on:
+      - app
+    container_name: tasks_nginx
+
+  app:
+    build:
+      context: .
+      dockerfile: docker/app/Dockerfile
+    volumes:
+      - ./:/var/www
+    container_name: tasks_app
+
+  composer:
+    image: composer:1.6
+    volumes:
+      - ${APP_PATH_LOCAL}:${APP_PATH_CONTAINER}
+    working_dir: ${APP_PATH_CONTAINER}
+    command: composer install
+    container_name: tasks_composer
