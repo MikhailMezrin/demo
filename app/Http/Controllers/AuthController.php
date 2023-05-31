@@ -85,7 +85,7 @@ class AuthController extends Controller
 
     public function refreshToken(): JsonResponse
     {
-        auth()->factory()->setTTL(43200);
+        auth()->factory()->setTTL(8*60); //token live time hours*minutes
         return response()->json(['token' => auth()->fromUser(auth()->user())]);
     }
 }

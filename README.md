@@ -1,11 +1,29 @@
-# Роуты  
-# вне апи
+# **Описание**
+Данный проект создан в демонстративных целях.
+Сервер способен обрабатывать запросы на создание, изменение, удаление и выдачу задач.
+# **FAST RUN**
+Для запуска вам потребуется <a href="https://www.docker.com/products/docker-desktop/">docker</a>.
+
+Следующая команда соберет и запустит контейнер(может потребоваться некоторое время)
+```
+docker-compose up --build -d
+```
+## Примечание
+При запуске вне linux могут возникнут задержки в работе из-за особенностей контейнеризации docker-а 
+# **Роуты**
+# вне api
 ## форма для отправки задания
 ```
 GET /form
 ```
-# апи
-## Регистрация пользователя  
+# api
+# **Пользователи**
+<details>
+<summary>
+
+## Регистрация пользователя 
+</summary>
+
 ```
 POST
 /api/register 
@@ -13,7 +31,7 @@ POST
 {
     "name":"your name",
     "email":"yourEmail@gmail.com",
-    "password":"your password"
+    "password":"your_password"
 }
 ```
 ответ
@@ -24,7 +42,16 @@ POST
     "expires_in": 2592000
 }
 ```
-## авторизация пользователя  
+
+</details>
+
+
+<details>
+<summary>
+
+## авторизация пользователя
+</summary>  
+
 ```
 POST        
 /api/login
@@ -43,9 +70,18 @@ POST
     "expires_in": 2592000
 }
 ```
-# tasks
-## Без авторизации
+
+</details>
+
+# **Задачи**
+# Без авторизации
+
+<details>
+<summary>
+
 ## Отправка задания
+</summary>
+
 ```
 POST
 /api/tasks
@@ -62,11 +98,17 @@ POST
     "message": "Task created successfully"
 }
 ```
+</details>
 
-## С авторизацией
+# С авторизацией
 (Для авторизации пользователя необходимо указать jwt токен)
 
+<details>
+<summary>
+
 ## Получение всех заданий
+</summary>
+
 ```
 GET
 /api/tasks
@@ -106,8 +148,15 @@ GET
     }
 }
 ```
+</details>
+
+<details>
+<summary>
 
 ## Получение конкретного задания
+
+</summary>
+
 ```
 GET
 /api/tasks/{id} 
@@ -125,7 +174,14 @@ GET
     }
 }
 ```
+</details>
+
+<details>
+<summary>
+
 ## Изменение конкретного задания
+</summary>
+
 ```
 PUT
 /api/tasks/{id} 
@@ -144,7 +200,13 @@ PUT
 }
 ```
 
-##Удаление конкретного задания
+</details>
+<details>
+<summary>
+
+## Удаление конкретного задания
+</summary>
+
 ```
 DELETE
 /api/tasks/{id} 
@@ -155,3 +217,4 @@ DELETE
     "message": "Task deleted successfully"
 }
 ```
+</details>
