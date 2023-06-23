@@ -19,6 +19,10 @@ Route::get('/form', function () {
     return view('taskForm', compact('users'));
 })->name('form');
 
+Route::get('/registrartion', function () {
+    return view('registrationForm');
+})->name('registration');
+
 
 
 Route::prefix('api')->group(function () use ($router) {
