@@ -18,6 +18,8 @@ class Task extends Migration
             $table->string('title');
             $table->string('description');
             $table->string('status');
+            $table->string('userId');
+            $table->foreign('userId')->references('id')->on('users');
             $table->timestamps();
         });
     }

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,7 +15,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/form', function () {
-    return view('taskForm');
+    $users = User::all();
+    return view('taskForm', compact('users'));
 })->name('form');
 
 

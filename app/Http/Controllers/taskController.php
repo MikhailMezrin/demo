@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Models\Task;
+use App\Models\User;
 
 class TaskController extends Controller
 {
@@ -26,9 +27,12 @@ class TaskController extends Controller
                 'title' => 'required',
                 'description' => 'required',
             ]);
+            if(!User::find($request->input('user'))) return response()->json(['message' => "Can't find user"],500);
             $task = new Task;
             $task->title = $request->title;
             $task->description = $request->description;
+            $task->userId = $request->input('user');
+                
             $task->status = "задача в работе";
             
             if ($task->save()) {
