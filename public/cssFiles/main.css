@@ -1,0 +1,107 @@
+*{
+    margin:0;
+    padding: auto;
+}
+body {
+    background: linear-gradient(to bottom, #000, #1c1c1e);
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 100vw;
+    height: 100vh;
+    font-family: 'San Francisco', sans-serif;
+}
+a {
+    background-color: #222222;
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+    cursor: pointer;
+    font-family: 'San Francisco', sans-serif;
+    font-size: 16px;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.3s ease-in-out;
+  }
+  
+a:hover {
+    color: #fff;
+    background-color: #1c1c1e;
+    box-shadow: 4px 4px 8px #d9d9d9;
+    transform: translateY(-2px);
+    border-color: #fff;
+  }
+h1{
+    color: #fff;
+}
+select {
+    background-color: #222222;
+    border: 1px solid #222222;
+    border-radius: 5px;
+    color: #ffffff;
+    font-family: 'San Francisco', sans-serif;
+    font-size: 16px;
+    height: 30px;
+    outline: none;
+    padding: 5px;
+    transition: border-color 0.2s ease-in-out;
+    width: 200px;
+  }
+  select:focus {
+    border-color: #222222;
+  }
+  
+  button {
+    background-color: #222222;
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+    cursor: pointer;
+    font-family: 'San Francisco', sans-serif;
+    font-size: 16px;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  button:hover {
+    background-color: #222222;
+    box-shadow: 2px 2px 5px #d9d9d9;
+    transform: translateY(-2px);
+  }
+  
+p{
+    color: #fff;
+}
+form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #1c1c1c;
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px #d9d9d9;
+  }
+  form input[type="text"], form textarea, form input[type="password"]{
+    width: 80%;
+    padding: 10px;
+    margin-bottom: 40px;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 1px 1px 2px #d9d9d9;
+    font-family: 'San Francisco', sans-serif;
+    font-size: 16px;
+    color: #333;
+    text-indent: 20px;
+    display: block;
+    margin: auto
+    
+  }
+  form input[type="text"]:focus, form textarea:focus {
+    outline: none;
+    box-shadow: 2px 2px 5px #d9d9d9;
+  }
+  form textarea {
+    resize: none;
+    height: 150px;
+  }
