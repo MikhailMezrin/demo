@@ -15,12 +15,12 @@ class TaskController extends Controller
         return response()->json(['Tasks' => Task::all()->sortByDesc('created_at')]);
     }
 
-    public function getTaskById($id): JsonResponse
+    /*public function getTaskById($id): JsonResponse
     {
         return response()->json(['Tasks' => Task::find($id)]);
-    }
+    }//*/
 
-    public function postNewTask(Request $request): JsonResponse
+    public function postNewTask(Request $request)
     {
         try {
             $this->validate($request, [
@@ -36,7 +36,7 @@ class TaskController extends Controller
             $task->status = "задача в работе";
             
             if ($task->save()) {
-                return response()->json(['message' => 'Task created successfully']);
+                return view('mainPage');
             } else {
                 return response()->json(['message' => 'Something gone wrong']);
             }
@@ -45,7 +45,7 @@ class TaskController extends Controller
         }
     }
 
-    public function editTaskById(Request $request, $id): JsonResponse
+    public function editTaskById(Request $request, $id)
     {
         $statuses = ["задача в работе", "задача выполнена"];
         try {
@@ -64,7 +64,7 @@ class TaskController extends Controller
             }
             
             if ($task->save()) {
-                return response()->json(['message' => 'Task updated successfully']);
+                return response()->view('mainPage');
             } else {
                 return response()->json(['message' => 'Something gone wrong']);
             }
@@ -74,21 +74,41 @@ class TaskController extends Controller
     }
 
     
-    public function deleteTaskById(Request $request, $id): JsonResponse
+    public function deleteTaskById(Request $request, $id)
     {
         try {
             if(! $task = Task::find($id)){
                 return response()->json(['message' => "Can't find task"]);
             }
-            
             if ($task->delete()) {
-                return response()->json(['message' => 'Task deleted successfully']);
+                return response()->view('mainPage');
             } else {
                 return response()->json(['message' => 'Something gone wrong']);
             }
         } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage()]);
         }
+    }
+
+    public function postTaskForm()
+    {
+    $users = User::all()->sortBy('name');
+    return view('postNewTaskForm', compact('users'));
+    }
+
+    public function getUserTasksForm(Request $request)
+    {
+    if(!User::find($request->input('user'))) return response()->json(['message' => "Can't find user"],500);
+    $userId = $request->input('user');
+    $user = User::find($userId);
+    $tasks = Task::all()->where('userId', $userId)->sortBy('created_at');
+    return view('getUserTaskForm', compact('tasks'));
+    }
+
+    public function editUserTaskForm(Request $request, $id)
+    {
+    $task = Task::find($id);
+    return view('editTaskForm', compact('task'));
     }
 }
 

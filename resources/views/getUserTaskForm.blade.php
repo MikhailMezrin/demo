@@ -13,6 +13,12 @@
                 width: 100vw;
                 height: 100vh
             }
+            p{
+                color: aliceblue
+            }
+            a{
+                color: aliceblue
+            }
 </style>
         <title>Task form</title>
     </head>
@@ -20,25 +26,18 @@
 
     <body>
         <br>
-        <form action=/api/tasks method="post" enctype="multipart/form-data" align="center">
+        @foreach($tasks as $task)
+        <h2>
         <div>
-            @csrf
-            <select name="user">
-                @foreach($users as $user)
-                <option value={{$user->id}}>{{$user->name}}</option>
-                @endforeach
-            </select>
-            <br>
-            <input type="text" name="title" value="" placeholder="title">
-        </div>
+        <p align ="center">
         <br>
-        <div>
-            <textarea name="description" placeholder="description" rows="32" cols="150"   ></textarea>
-        </div>
-        <div>
-            <button type="submit"> отправить</button>
-        </div>
-        
-        </form>
+        {{$task->title}}
+        <br>
+        {{$task->description}}   <br>
+        <a href={{route('editTaskForm',['id' => $task->id])}}>изменить</a>
+        <a href={{route('delete', ['id' => $task->id])}}>удалить</a>
+        </h2></p><br><br> 
+    </div>
+        @endforeach
     </body>
 </html>

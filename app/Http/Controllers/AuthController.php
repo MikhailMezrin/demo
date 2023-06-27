@@ -10,14 +10,14 @@ use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
-    public function register(Request $request): JsonResponse
+    public function register(Request $request)
     {
         $name = $request->name;
         $email = $request->email;
         $password = $request->password;
 
         if (!($name && $email && $password)) {
-            return response()->json(['status' => 'error', 'message' => $name." \n ".$email." \n ".$password." \n ".$phone], 417);
+            return response()->json(['status' => 'error', 'message' => $name." \n ".$email." \n ".$password], 417);
         }
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -39,53 +39,17 @@ class AuthController extends Controller
             $user->password = app('hash')->make($request->password);
 
             if ($user->save()) {
-                return $this->login($request);
+                return view('mainPage');
             }
         } catch (\Exception $e) {
-            return response()->json(['status' => 'error', 'message' => $e->getMessage()]);
+            return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
         }
-
         return response()->json(['error' => 'Something gone wrong'], 401);
     }
 
-    public function logout(): JsonResponse
+    public function selectUser()
     {
-        auth()->logout();
-
-        return response()->json(['message' => 'Successfully logged out']);
-    }
-
-    public function login(Request $request): JsonResponse
-    {
-        $email = $request->email;
-        $password = $request->password;
-
-        if (empty($email) or empty($password)) {
-            return response()->json(['status' => 'error', 'message' => 'You must fill all the fields']);
-        }
-
-        $credentials = request(['email', 'password']);
-
-        auth()->factory()->setTTL(43200);
-
-        if (!$token = auth()->attempt($credentials)) {
-            return response()->json(['error' => 'Unauthorized'], 401);
-        }
-        return $this->respondWithToken($token);
-    }
-
-    protected function respondWithToken(string $token): JsonResponse
-    {
-        return response()->json([
-            'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60
-        ]);
-    }
-
-    public function refreshToken(): JsonResponse
-    {
-        auth()->factory()->setTTL(8*60); //token live time hours*minutes
-        return response()->json(['token' => auth()->fromUser(auth()->user())]);
-    }
+    $users = User::all()->sortBy('name');
+    return view('selectUserForm', compact('users'));
+    }    
 }

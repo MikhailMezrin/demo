@@ -13,32 +13,34 @@ use App\Models\User;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/', function () {
+    return view('mainPage');
+})->name('main');
 
-Route::get('/form', function () {
-    $users = User::all();
-    return view('taskForm', compact('users'));
-})->name('form');
+Route::get('/form', "TaskController@postTaskForm")->name('form');
+Route::post('/userTask', 'TaskController@getUserTasksForm')->name('tasks');
 
-Route::get('/registrartion', function () {
+Route::get('/registration', function () {
     return view('registrationForm');
 })->name('registration');
 
-
+Route::get('/select-user', 'AuthController@selectUser')->name('selectUser');
+Route::get('/edit-task/{id}', 'TaskController@editUserTaskForm')->name('editTaskForm');
 
 Route::prefix('api')->group(function () use ($router) {
 
     Route::post('/register', 'AuthController@register');
-    Route::post('/login', 'AuthController@login');
+    Route::post('/login', 'AuthController@selectUser');
 
     Route::prefix('tasks')->group(function () use ($router) {
         
         Route::post('/', 'TaskController@postNewTask');
+        $router->get('/', 'TaskController@getAllTasks');
+        //$router->get('/{id}', 'TaskController@getTaskById');
+        $router->put('/edit/{id}', 'TaskController@editTaskById')->name('edit');
+        $router->get('/delete/{id}', 'TaskController@deleteTaskById')->name('delete');
 
-            Route::group(['middleware' => 'auth'], function () use ($router) {
-            $router->get('/', 'TaskController@getAllTasks');
-            $router->get('/{id}', 'TaskController@getTaskById');
-            $router->put('/{id}', 'TaskController@editTaskById');
-            $router->delete('/{id}', 'TaskController@deleteTaskById');
-        });
+            //Route::group(['middleware' => 'auth'], function () use ($router) {
+        //});
     });
 });
