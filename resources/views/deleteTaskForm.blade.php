@@ -13,10 +13,7 @@
                 width: 100vw;
                 height: 100vh
             }
-            p{
-                color: aliceblue
-            }
-            a{
+            h1{
                 color: aliceblue
             }
 </style>
@@ -26,18 +23,15 @@
 
     <body>
         <br>
-        @foreach($tasks as $task)
-        <h2>
+        <form action={{route('delete', ['id'=>$task->id])}} method="post" enctype="multipart/form-data" align="center">
+            @csrf
+            @method('delete')
+        <br>
+        <h1>Вы уверены, что хотите удалить это задание?</h1>
         <div>
-        <p align ="center">
-        <br>
-        {{$task->title}}
-        <br>
-        {{$task->description}}   <br>
-        <a href={{route('editTaskForm',['id' => $task->id])}}>изменить</a>
-        <a href={{route('deleteTaskForm', ['id' => $task->id])}}>удалить</a>
-        </h2></p><br><br> 
-    </div>
-        @endforeach
+            <button type="submit"> Удалить</button>
+        </div>
+        
+        </form>
     </body>
 </html>

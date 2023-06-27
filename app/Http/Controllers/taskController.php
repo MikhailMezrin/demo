@@ -9,16 +9,6 @@ use App\Models\User;
 
 class TaskController extends Controller
 {
-    public function getAllTasks(Request $request): JsonResponse
-    {
-        if($request->SortByUpdate) return response()->json(['Tasks' => Task::all()->sortByDesc('updated_at')]);
-        return response()->json(['Tasks' => Task::all()->sortByDesc('created_at')]);
-    }
-
-    /*public function getTaskById($id): JsonResponse
-    {
-        return response()->json(['Tasks' => Task::find($id)]);
-    }//*/
 
     public function postNewTask(Request $request)
     {
@@ -78,18 +68,20 @@ class TaskController extends Controller
     {
         try {
             if(! $task = Task::find($id)){
-                return response()->json(['message' => "Can't find task"]);
+                return response()->json(['message' => "Can't find task"], 500);
             }
             if ($task->delete()) {
                 return response()->view('mainPage');
             } else {
-                return response()->json(['message' => 'Something gone wrong']);
+                return response()->json(['message' => 'Something gone wrong'], 500);
             }
         } catch (\Exception $e) {
-            return response()->json(['message' => $e->getMessage()]);
+            return response()->json(['message' => $e->getMessage()], 500);
         }
     }
 
+//======FORMS=======
+    
     public function postTaskForm()
     {
     $users = User::all()->sortBy('name');
@@ -109,6 +101,12 @@ class TaskController extends Controller
     {
     $task = Task::find($id);
     return view('editTaskForm', compact('task'));
+    }
+
+    public function deleteUserTaskForm(Request $request, $id)
+    {
+    $task = Task::find($id);
+    return view('deleteTaskForm', compact('task'));
     }
 }
 

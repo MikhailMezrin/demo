@@ -17,15 +17,17 @@ Route::get('/', function () {
     return view('mainPage');
 })->name('main');
 
-Route::get('/form', "TaskController@postTaskForm")->name('form');
-Route::post('/userTask', 'TaskController@getUserTasksForm')->name('tasks');
-
 Route::get('/registration', function () {
     return view('registrationForm');
 })->name('registration');
 
-Route::get('/select-user', 'AuthController@selectUser')->name('selectUser');
+Route::get('/form', "TaskController@postTaskForm")->name('form');
 Route::get('/edit-task/{id}', 'TaskController@editUserTaskForm')->name('editTaskForm');
+Route::get('/delete-task/{id}', 'TaskController@deleteUserTaskForm')->name('deleteTaskForm');
+Route::post('/userTask', 'TaskController@getUserTasksForm')->name('tasks');
+
+Route::get('/select-user', 'AuthController@selectUser')->name('selectUser');
+
 
 Route::prefix('api')->group(function () use ($router) {
 
@@ -38,7 +40,7 @@ Route::prefix('api')->group(function () use ($router) {
         $router->get('/', 'TaskController@getAllTasks');
         //$router->get('/{id}', 'TaskController@getTaskById');
         $router->put('/edit/{id}', 'TaskController@editTaskById')->name('edit');
-        $router->get('/delete/{id}', 'TaskController@deleteTaskById')->name('delete');
+        $router->delete('/delete/{id}', 'TaskController@deleteTaskById')->name('delete');
 
             //Route::group(['middleware' => 'auth'], function () use ($router) {
         //});
