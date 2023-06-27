@@ -13,6 +13,7 @@
             @method('delete')
         <br>
         <h1>Вы уверены, что хотите удалить это задание?</h1>
+        <br>
         <div>
             <button type="submit"> Удалить</button>
         </div>

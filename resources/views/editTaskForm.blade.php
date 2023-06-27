@@ -19,6 +19,7 @@
         <div>
             <textarea name="description" placeholder="description" rows="32" cols="150"></textarea>
         </div>
+        <br>
         <div>
             <button type="submit"> изменить</button>
         </div>
